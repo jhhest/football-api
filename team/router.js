@@ -1,11 +1,21 @@
-const {Router} = require("express");
-const Team = require("./model")
+const { Router } = require("express");
+const Team = require("./model");
 
-const router = new Router()
-router.get('/team', (request, response, next) => {
-    Team.findAll().then( list => response.send(list))
-})
-module.exports = router
+const router = new Router();
+router.get("/", (request, response, next) => {
+  Team.findAll().then(list => response.send(list));
+});
+router.post("/", (request, response, next) => {
+  console.log("request body to create team", request.body);
+
+  Team.create(request.body)
+  .then( team => {
+      console.log("created the team:")
+      response.json(team)
+  })
+  .catch(error => next(error));
+});
+module.exports = router;
 
 // Instantiate a router.
 // Register a GET endpoint on the '/team' route. This route will get all the team rows from the table.
