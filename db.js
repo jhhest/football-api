@@ -1,0 +1,18 @@
+// Import sequelize as a variable named Sequelize. You should capitalize the variable because it is a class.
+const Sequelize = require("sequelize");
+// Declare a variable named databaseUrl and set it equal to your local database url, which should be 'postgres://postgres:<password>@localhost:5432/postgres', where <password> should be replaced with the password you've chosen for your database.
+const databaseUrl =
+  process.env.DATABASE_URL ||
+  "postgres://postgres:secret@localhost:5432/postgres";
+
+// Create a new instance of the Sequelize class named db, passing the databaseUrl to the constructor.
+const db = new Sequelize(databaseUrl);
+// Call the sync method of the instance you created. This method will sync the data in your database with the schema you are about to create.
+db.sync()
+  .then(() => console.log("Database Scheme Updates. "))
+  .catch(console.error);
+// Add a then callback to sync that logs a message confirming the database schema has been updated.
+
+// Add a catch callback that will pass any errors to console.error.
+// Export db.
+module.exports = db;
